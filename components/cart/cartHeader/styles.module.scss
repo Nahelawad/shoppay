@@ -1,0 +1,15 @@
+@import "../_.base";
+
+.cart__header{
+    height: 120px;
+}
+
+.flex{
+    gap:10px;
+    cursor: pointer;
+    &:hover{
+        .checkbox{
+            border-color: $blue-color;
+        }
+    }
+}

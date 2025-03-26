@@ -1,0 +1,309 @@
+$error-color:#f70b0b69;
+$light-error-color:#ed4337;
+$blue-color:#0080f0d3;
+$light-blue-color:#2f82ff;
+$grey-color:#f8f8f8a7;
+$sucess-color:#f5c107;
+$orange-color:#f6ae06;
+$yellow-color:hwb(62 1% 2%);
+$redish-color:red;
+
+$shadow-1:rgba(99,99,99, 0.2)0px 2px 8px;
+
+.container{
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 1rem;
+    
+}
+
+.btn_primary{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background:$blue-color ;
+    color: #fff;
+    font-weight: 600;
+    cursor:pointer ;
+    width: 100%;
+    border-radius: 2px;
+}
+
+.btn_outlined{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background:$grey-color ;
+    color:$blue-color;
+    font-weight: 600;
+    cursor:pointer ;
+    width: 100%;
+    border-radius: 2px;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.wrap{
+  flex-wrap: wrap;
+}
+
+.errormessage{
+    color: red;
+    
+    padding: 10px;
+}
+
+.successmessage{
+    padding: 10px;
+    color: $sucess-color;
+}
+
+
+
+
+    .swiper {
+        width: 100%;
+        height: 100%;
+      }
+      
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+      
+        /* Center slide text vertically */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .swiper {
+        margin-left: 0 !important;
+        margin-right: auto;
+        cursor: pointer;
+        &:hover{
+          .swiper-button-prev,.swiper-button-next{
+            display: grid;
+          }
+
+        }
+      }
+      
+.mainSwiper,.userMenu__swiper,.user__swiper,.offers_swiper,.flashDeals__swiper{
+
+  .swiper{
+    border-radius: 10px !important;
+    overflow: hidden !important;
+  }
+  .swiper-slide img{
+    border-radius: 10px !important;
+    height: 300px !important;
+    box-shadow: $shadow-1 !important;
+  }
+  .swiper-pagination-bullet{
+    width: 9px !important;
+    border-radius: 5px !important;
+  }
+  .swiper-pagination-bullet-active{
+    background: $blue-color !important;
+    width: 13px !important;
+  }
+
+  .swiper-button-prev,.swiper-button-next{
+    color: #fff !important;
+    transform: scale(0.5) !important;
+    width: 50px !important;
+    height: 80px !important;
+    transition: 0.2s;
+    background: #666;
+    display: none;
+    place-items: center;
+
+  }
+
+  .swiper-button-prev{
+    left: -13px;
+  }
+  .swiper-button-next{
+    right:-13px ;
+  }
+
+}
+
+  
+  
+
+.offers_swiper{
+  max-width: 550px;
+  transform: translateX(35%);
+  @media (max-width:990px){
+    transform: translate(1rem);
+    max-width: 750px;
+  }
+  #app {
+    height: 100%;
+  }
+  html,
+  body {
+    position: relative;
+    height: 100%;
+  }
+  
+  body {
+    background: #eee;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px !important;
+    border-radius: 10px !important;
+    height: 90% !important;
+    margin-top: 0.6rem !important;
+    box-shadow: $shadow-1;
+    &:hover{
+      transform: scale(1.03);
+      transition: 0.5s;
+    }
+    span{
+      position: absolute;
+      color: white;
+      &:first-of-type{
+        bottom: 10px;
+        width: 90px;
+        height: 25px;
+        border-radius: 40px;
+        font-size: 16px;
+        font-weight: 600;
+        background-color: $orange-color;
+      }
+      &:last-of-type{
+        font-style: italic;
+        top: -5px;
+        right: -5px;
+        background: red;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        box-shadow: $shadow-1;
+      }
+    }
+
+  }
+  
+  .swiper-slide img {
+    
+    
+    display: block;
+    width: 110% !important;
+    height: 110% !important;
+    object-fit: cover !important;
+    
+  }
+  
+  .swiper-pagination{
+    display: none;
+  }
+}
+
+.user__swiper{
+
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 4rem;
+    img{
+      height: 240px !important;
+    }
+  }
+  
+ 
+}
+.flashDeals__swiper{
+  .swiper-slide{
+    img{
+      border-radius: 0 !important;
+      height: 320px !important;
+    }
+  }
+  .swiper-button-next,.swiper-button-prev{
+    top: 35%;
+  }
+
+  @media(max-width: 450px){
+    .swiper-button-next,.swiper-button-prev{
+      display: grid !important;
+    }
+  }
+}
+
+.products__swiper{
+  .swiper-button-next,.swiper-button-prev{
+    background:#fff ;
+    width: 40px;
+    height: 40px;
+    border-radius:50% ;
+    display: grid;
+    place-items: center;
+    color: #666;
+    box-shadow: $shadow-1;
+    &::after{
+      transform: scale(0.5);
+    }
+  }
+}
+
+.simillar_swiper{
+  max-width: 550px;
+  padding-left: 0 !important; 
+  .swiper-pagination{
+    display: none !important;
+  }
+  img{
+    width: 100px;
+    height: 160px;
+    object-fit: cover;
+    cursor: pointer;
+    @media (min-width: 461px){
+      width:150px;
+      height:200px;
+    }
+  }
+}
+
