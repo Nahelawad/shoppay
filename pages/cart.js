@@ -25,7 +25,15 @@ export default function cart(){
     const [subtotal,setSubtotal]=useState(0);
     const [total,setTotal]=useState(0);
         
-
+      const update=async()=>{
+        const {data}=await axios.post("/api/updateCart",{
+            products:cart.cartItems,
+        });
+        dispatch(updateCart(data));
+        if(cart.cartItems.length>0){
+            update();
+        }
+      };
 
     useEffect(()=>{
         setShippingFee(selected.reduce((a,c)=> a+ Number(c.shipping),0).toFixed(2));

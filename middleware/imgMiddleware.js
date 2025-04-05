@@ -33,7 +33,7 @@ export const imgMiddleware = async (req,res,next)=>{
 const removeTmp=(path)=>{
     fs.unlink(path,(error)=>{
 
-        if(err) throw err;
+        if(error) throw error;
     });
 
 }

@@ -27,7 +27,7 @@ export default function SingularSelect({
             {
                 data.map((option)=>(
 
-                    <MenuItem key={option._id} value={option.name}>
+                    <MenuItem key={option._id} value={option._id || option.name}>
                     {
                         option.name
                     }

@@ -309,14 +309,28 @@ export default function order({orderData,paypal_client_id,stripe_public_key}){
 
                             )
                         }
-                    
+
+                        
+                        
                     </div>
+                    <button 
+                    onClick={()=>{
+                        console.log("Test")
+                    }}
+                    
+                    className={styles.reciptbtn}>
+                            Print Recipt 
+                          </button>
+                    
                 </div>
-                
 
             </div>
 
+                         
+
         </div>
+
+                            
 
         </>
     );
