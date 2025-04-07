@@ -6,16 +6,27 @@ export default function SingularSelect({
     data,
     handleChange,
     placeholder,
+    header,disabled,
     ...rest
 }){
     const [field,meta]=useField(rest);
     return(
         <div style={{marginBottom:"1rem"}}>
+
+            {
+                header && <div className={`${styles.header} ${meta.error?styles.header__error:""}`}>
+                    <div className={styles.flex}>
+                        {meta.error && <img src="../../../images/warning.png"/>}
+                        {header}
+                    </div>
+                </div>
+            }
             <TextField
             variant="outlined"
             name={field.name}
             select
             label={placeholder}
+            disabled={disabled}
             value={field.value}
             onChange={handleChange}
             className={`${styles.select} ${meta.touched && meta.error && styles.error_select}`}>

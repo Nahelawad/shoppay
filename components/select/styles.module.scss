@@ -1,6 +1,14 @@
+
+@import "../admin/base";
+
 .select{
     width: 100%;
-    margin-bottom: 1rem;
+    margin-top: 1rem !important;
+    div{
+        div{
+            padding: 1rem;
+        }
+    }
 }
 
 .error__select{
@@ -11,4 +19,11 @@
 .error__msg{
     color: red;
     font-size: 14px;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
 }

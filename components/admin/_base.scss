@@ -33,6 +33,7 @@
     border-bottom: 1px solid #ccc;
     padding-bottom: 5px;
     margin-top: 1rem;
+    margin-bottom: 2px;
     display: flex;
     flex-direction: column;
     .flex{
@@ -48,4 +49,13 @@
     img{
         width: 30px;
     }
+}
+
+.header__error{
+    color: red;
+    border-color: red;
+}
+
+.error_bg{
+    background: red !important; 
 }
