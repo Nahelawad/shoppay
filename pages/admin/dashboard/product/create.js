@@ -13,6 +13,8 @@ import AdminInput from "../../../../components/inputs/admininput";
 import DialogModal from "../../../../components/dialogModal";
 import { useDispatch } from "react-redux";
 import { showDialog} from "../../../../store/DialogSlice"
+import Images from "../../../../components/admin/createProduct/images";
+import Colors from "../../../../components/admin/createProduct/colors";
 
 const initialState={
     name:"",
@@ -50,7 +52,7 @@ export default function create({parents,categories}){
     const [product,setProduct]=useState(initialState);
     const [subs,setSubs]=useState([]);
     const [colorImage,setColorImage]=useState("");
-    const [images,setImages]=useState("");
+    const [images,setImages]=useState([]);
     const [description_images,setDescription_images]=useState("");
     const [loading,setLoading]=useState(false);
     const dispatch=useDispatch()
@@ -140,7 +142,7 @@ export default function create({parents,categories}){
                     (formik)=>(
                         <Form>
 
-                            {/*
+                            
                             
                             <Images
                             name="imageInputFile"
@@ -150,7 +152,7 @@ export default function create({parents,categories}){
                             setImages={setImages}
                             setColorImage={setColorImage}
                             />
-                            */}
+                            
 
                             <div className={styles.flex}> 
                                 {
@@ -167,14 +169,16 @@ export default function create({parents,categories}){
                                 )}
                                 </div>
 
-                                {/*
+                                
 
                                 <Colors
                                 name="color"
                                 product={product}
-                                setProducts={setProduct}
+                                setProduct={setProduct}
                                 colorImage={colorImage}
                                 />
+
+                                {/*
 
                                 <Style
 
