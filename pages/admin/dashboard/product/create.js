@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { showDialog} from "../../../../store/DialogSlice"
 import Images from "../../../../components/admin/createProduct/images";
 import Colors from "../../../../components/admin/createProduct/colors";
+import Style from "../../../../components/admin/createProduct/style";
 
 const initialState={
     name:"",
@@ -178,18 +179,18 @@ export default function create({parents,categories}){
                                 colorImage={colorImage}
                                 />
 
-                                {/*
+                                
 
                                 <Style
 
                                 name="styleInput"
                                 product={product}
-                                setProducts={setProduct}
+                                setProduct={setProduct}
                                 colorImage={colorImage}
                                 
                                 />
 
-                                */}
+                                
 
 
                                <SingularSelect
