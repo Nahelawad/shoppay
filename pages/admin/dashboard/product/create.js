@@ -16,6 +16,9 @@ import { showDialog} from "../../../../store/DialogSlice"
 import Images from "../../../../components/admin/createProduct/images";
 import Colors from "../../../../components/admin/createProduct/colors";
 import Style from "../../../../components/admin/createProduct/style";
+import Sizes from "../../../../components/admin/createProduct/clickToAdd/Sizes";
+import Details from "../../../../components/admin/createProduct/clickToAdd/Details";
+import Questions from "../../../../components/admin/createProduct/clickToAdd/Questions"
 
 const initialState={
     name:"",
@@ -44,8 +47,8 @@ const initialState={
         value:"",
     },],
     questions:[{
-        name:"",
-        value:"",
+        question:"",
+        answer:"",
     },],
     shippingFee:"",
 };
@@ -265,6 +268,11 @@ export default function create({parents,categories}){
                                 placeholder="Product discount"
                                 onChange={handleChange}
                                 />
+                            <Sizes
+                            sizes={product.sizes}
+                            product={product}
+                            setProduct={setProduct}
+                            />
 
                                 {/*
                             
@@ -278,24 +286,21 @@ export default function create({parents,categories}){
                             />
                             */}
 
-                             {/*
+                             
                             
-                            <Sizes
-                            sizes={product.sizes}
-                            product={product}
-                            setProduct={setProduct}
-                            />
+                            
                             <Details
-                            sizes={product.details}
+                            details={product.details}
                             product={product}
                             setProduct={setProduct}
                             />
+                            
                             <Questions
-                            sizes={product.questions}
+                            questions={product.questions}
                             product={product}
                             setProduct={setProduct}
                             />
-                            */}
+                            
 
                             <button className={styles.btn} type="submit">
                                 Create Product
