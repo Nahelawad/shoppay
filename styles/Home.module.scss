@@ -1,5 +1,5 @@
 .home{
-    min-height:340vh ;
+    min-height:600vh ;
     background: $grey-color;
     &_category{
         display: grid;
@@ -18,6 +18,6 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 3rem;
+        gap: 10rem;
     }
 }
