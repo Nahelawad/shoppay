@@ -16,7 +16,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function DialogModal({ type }) {
   const dispatch = useDispatch();
   const { dialog } = useSelector((state) => ({ ...state }));
-  const test = dialog.msgs?.find((x) => x.type == "error");
+  console.log("dialog.msgs", dialog.msgs)
+  const test = []
+  .concat(dialog.msgs || [])
+  .find((x) => x.type === "error");
+
 
   const handleClose = () => {
     dispatch(hideDialog());
@@ -44,7 +48,7 @@ export default function DialogModal({ type }) {
           {dialog.header}
         </DialogTitle>
         <DialogContent className={styles.body}>
-          {dialog.msgs &&
+          {Array.isArray(dialog.msgs) &&
             dialog.msgs.map((msg, i) => (
               <DialogContentText
                 className={styles.msg}

@@ -12,14 +12,14 @@ import MultipleSelect from "../../../../components/select/MultipleSelect";
 import AdminInput from "../../../../components/inputs/admininput";
 import DialogModal from "../../../../components/dialogModal";
 import { useDispatch } from "react-redux";
-import { showDialog} from "../../../../store/DialogSlice"
 import Images from "../../../../components/admin/createProduct/images";
 import Colors from "../../../../components/admin/createProduct/colors";
 import Style from "../../../../components/admin/createProduct/style";
 import Sizes from "../../../../components/admin/createProduct/clickToAdd/Sizes";
 import Details from "../../../../components/admin/createProduct/clickToAdd/Details";
 import Questions from "../../../../components/admin/createProduct/clickToAdd/Questions"
-
+import { showDialog } from "../../../../store/DialogSlice";
+import {validateCreateProduct} from "../../../../utils/validation";
 const initialState={
     name:"",
     description:"",
@@ -107,12 +107,26 @@ export default function create({parents,categories}){
         .max(300,"Product name must between 10 and 300 characters."),
         brand:Yup.string().required("Please add a brand name"),
         category:Yup.string().required("Please select a category"),
-        subCategories:Yup.array().min(1,"Please select atleast one sub Category"),
         sku:Yup.string().required("Please add a sku/number"),
         color:Yup.string().required("Please add a color"),
         description:Yup.string().required("Please add a description"),
     });
-    const createProudt=async()=>{};
+
+    const createProduct= async ()=>{
+        let test=validateCreateProduct(product,images);
+        if(test == "valid"){
+            createProductHandler();
+        }else{
+            dispatch(showDialog({
+                header:"Please follow the instructions",
+                msgs:test,
+            })
+        )
+        }
+        
+    };
+
+    const createProductHandler = async ()=>{};
    
     return(
         <Layout>
@@ -139,7 +153,7 @@ export default function create({parents,categories}){
             }}
             validationSchema={validate}
             onSubmit={()=>{
-                createProudt();
+                createProduct();
             }}
             >
                 {
@@ -192,8 +206,6 @@ export default function create({parents,categories}){
                                 colorImage={colorImage}
                                 
                                 />
-
-                                
 
 
                                <SingularSelect
@@ -302,7 +314,7 @@ export default function create({parents,categories}){
                             />
                             
 
-                            <button className={styles.btn} type="submit">
+                            <button className={`${styles.btn} ${styles.btn___primary} ${styles.submit_btn}`} type="submit">
                                 Create Product
                             </button>
 

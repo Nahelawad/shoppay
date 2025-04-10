@@ -28,7 +28,13 @@ export const DialogSlice=createSlice({
         showDialog(state,action){
             state.show=true;
             state.header=action.payload.header;
-            state.msgs=action.payload.msgs;
+            const rawMsgs = action.payload.msgs;
+            state.msgs = Array.isArray(rawMsgs)
+                     ? rawMsgs
+                     : rawMsgs
+                    ? [rawMsgs]
+                    : [];
+      state.link = action.payload.link || {};
             state.link=action.payload.link;
         },
         hideDialog(state,action){

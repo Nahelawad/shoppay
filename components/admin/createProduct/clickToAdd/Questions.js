@@ -10,7 +10,7 @@ export default function Questions({questions,product,setProduct}){
         setProduct({...product,questions:values});
     };
     const handleRemove=(i)=>{
-        if(details.length>0){
+        if(questions.length>0){
             const values=[...questions];
             values.splice(i,1);
             setProduct({...product,questions:values});
@@ -51,7 +51,7 @@ export default function Questions({questions,product,setProduct}){
                         onChange={(e)=>handleQuestion(i,e)}
                         />
 
-<input type="text" name="answer" placeholder="Answer"
+                        <input type="text" name="answer" placeholder="Answer"
                         value={q.answer}
                         onChange={(e)=>handleQuestion(i,e)}
                         />

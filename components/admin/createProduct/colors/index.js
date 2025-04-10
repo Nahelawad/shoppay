@@ -32,12 +32,12 @@ export default function Colors({
     return (
         <div className={styles.color}>
             <div 
-                        className={`${styles.header} ${meta.error? styles.header__error:""}`}>
+                        className={`${styles.header} ${meta.error[name]? styles.header__error:""}`}>
             
                         
                         <div className={styles.flex}>
                             {
-                                meta.error && <img src="../../../images/warning.png"/>
+                                meta.error[name] && <img src="../../../images/warning.png"/>
                             }
             
                             Please Pick a product color
