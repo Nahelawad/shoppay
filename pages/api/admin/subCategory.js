@@ -1,11 +1,12 @@
 import nc from "next-connect";
 import auth from "../../../middleware/auth";
-const handler=nc().use(auth);
+import admin from "../../../middleware/admin";
 import { connectDb,disconnectDb } from "../../../utils/db";
 import Category from "../../../models/Category";
 import  SubCategory from "../../../models/SubCategory";
 import slugify from "slugify";
 import { error } from "console";
+const handler=nc().use(auth).use(admin);
 
 handler.post(async(req,res)=>{
     try {

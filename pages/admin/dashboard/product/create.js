@@ -6,6 +6,7 @@ import Category from "../../../../models/Category";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Form, Formik } from "formik";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import SingularSelect from "../../../../components/select/SingularSelect";
 import MultipleSelect from "../../../../components/select/MultipleSelect";
@@ -20,6 +21,8 @@ import Details from "../../../../components/admin/createProduct/clickToAdd/Detai
 import Questions from "../../../../components/admin/createProduct/clickToAdd/Questions"
 import { showDialog } from "../../../../store/DialogSlice";
 import {validateCreateProduct} from "../../../../utils/validation";
+import dataURItoBlob from "../../../../utils/dataURItoBlob";
+import { uploadImages } from "../../../../requests/upload";
 const initialState={
     name:"",
     description:"",
@@ -126,7 +129,54 @@ export default function create({parents,categories}){
         
     };
 
-    const createProductHandler = async ()=>{};
+    let uploaded_images=[];
+    let style_img="";
+
+    const createProductHandler = async ()=>{
+        setLoading(true);
+        if(images){
+            let temp=images.map((img)=>{
+                return dataURItoBlob(img);
+            });
+
+            const path="product images";
+            let formData=new FormData();
+            formData.append("path",path);
+            temp.forEach((image)=>{
+                formData.append("file",image);
+            });
+
+            uploaded_images=await uploadImages(formData);
+        }
+
+        if(product.color.image){
+            let temp=dataURItoBlob(product.color.image);
+            let path="product style images";
+            let formData=new FormData();
+            formData.append("path",path);
+            formData.append("file",temp);
+            let cloudinary_style_img=await uploadImages(formData);
+            style_img=cloudinary_style_img[0].url;
+        }
+       
+
+        try {
+            const {data}=await axios.post("/api/admin/product" ,{
+                ...product,
+                images:uploaded_images,
+                color:{
+                    image:style_img,
+                    color:product.color.color,
+                },
+            });
+            setLoading(false);
+            toast.success(data.message);
+        } catch (error) {
+            setLoading(false);
+            toast.error(error.response.data.message);
+        }
+        
+    };
    
     return(
         <Layout>
