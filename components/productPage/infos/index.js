@@ -221,7 +221,7 @@ export default function Infos({product, setActiveImg}){
                  <Share/>
                  <Accordian details={[product.description,...product.details]}/>
                  
-                 <SimilarSwiper/>
+                 
 
 
 
