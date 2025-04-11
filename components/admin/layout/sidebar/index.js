@@ -69,14 +69,6 @@ export default function Sidebar(){
                             </span>
                         </Link>
                     </li>
-                     <li className={route=="sales"? styles.active:""}>
-                        <Link href="/admin/dashboard/sales">
-                        <FcSalesPerformance />
-                            <span className={styles.show}>
-                               Sales
-                            </span>
-                        </Link>
-                    </li>
                     <li className={route=="orders"? styles.active:""}>
                         <Link href="/admin/dashboard/orders">
                             <IoListCircleSharp/>
@@ -90,14 +82,6 @@ export default function Sidebar(){
                             <FaUser/>
                             <span className={styles.show}>
                                Users
-                            </span>
-                        </Link>
-                    </li>
-                    <li className={route=="messages"? styles.active:""}>
-                        <Link href="/admin/dashboard/messages">
-                        <LuMessageCircle />
-                            <span className={styles.show}>
-                                Messages
                             </span>
                         </Link>
                     </li>
