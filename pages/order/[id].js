@@ -12,6 +12,8 @@ import StripePayment from "../../components/stripePayment";
 import { type } from "os";
 import axios from "axios";
 import { useState } from "react";
+import {pdf} from "@react-pdf/renderer";
+import OrderRecieptPDF from "../../components/PDF/OrderReceiptPDF";
 
 function reducer(state,action){
     switch(action.type){
@@ -101,6 +103,20 @@ export default function order({orderData,paypal_client_id,stripe_public_key}){
         console.log(error);
 
     }
+
+    async function downloadPdf(){
+            const blob=await pdf(<OrderRecieptPDF order={orderData}/>).toBlob();
+            const url=URL.createObjectURL(blob);
+            const link=document.createElement("a");
+            link.href=url;
+            link.download=`order_${orderData._id}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        console.log("Order",orderData)
 
     return (
         <>
@@ -314,11 +330,10 @@ export default function order({orderData,paypal_client_id,stripe_public_key}){
                         
                     </div>
                     <button 
-                    onClick={()=>{
-                        console.log("Test")
-                    }}
+                    className={styles.reciptbtn}
+                    onClick={downloadPdf}
                     
-                    className={styles.reciptbtn}>
+                    >
                             Print Recipt 
                           </button>
                     
