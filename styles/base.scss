@@ -10,6 +10,9 @@ $redish-color:red;
 
 $shadow-1:rgba(99,99,99, 0.2)0px 2px 8px;
 
+
+$cubic-bezier:cubic-bezier(0.175,0.885,0.32,1.275);
+
 .container{
     max-width: 1500px;
     margin: 0 auto;

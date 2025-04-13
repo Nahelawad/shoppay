@@ -130,7 +130,6 @@ export default function Sidebar(){
                         <div>
                             <div style={{transform:"rotate(189deg)"}}>
                                 <MdOutlineCategory/>
-
                             </div>
                         </div>
                             <span className={styles.show}>

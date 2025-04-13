@@ -294,10 +294,6 @@ export default function order({orderData,paypal_client_id,stripe_public_key}){
                         {
                             !orderData.isPaid &&(
                                 <div className={styles.order__payment}>
-
-                                    
-
-                    
                                 {
                                   orderData.paymentMethod=="paypal" &&(
                                       <div>
