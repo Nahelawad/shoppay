@@ -110,6 +110,7 @@ export async function getServerSideProps(context) {
       { percentage: 4 },
       { percentage: 0 },
     ],
+    reviews:product.reviews.reverse(),
     allSizes: product.subProducts
       .map((p)=>{
       return p.sizes;
