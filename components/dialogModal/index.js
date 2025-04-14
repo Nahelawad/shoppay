@@ -16,6 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function DialogModal({ type }) {
   const dispatch = useDispatch();
   const { dialog } = useSelector((state) => ({ ...state }));
+  const tests=dialog.msgs?.find((x)=>x.type == "error");
   console.log("dialog.msgs", dialog.msgs)
   const test = []
   .concat(dialog.msgs || [])

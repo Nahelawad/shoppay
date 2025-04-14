@@ -12,6 +12,9 @@ import SimilarSwiper from "./SimilarSwiper";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCart } from "../../../store/cartSlice";
+import { signIn, useSession } from "next-auth/react";
+import { showDialog } from "../../../store/DialogSlice";
+import DialogModal from "../../dialogModal";
 export default function Infos({product, setActiveImg}){
 
     const router=useRouter();
@@ -20,6 +23,8 @@ export default function Infos({product, setActiveImg}){
     const [qty,setQty]=useState("1");
     const [error,setError]=useState("");
     const { cart }=useSelector((state)=>({...state})); 
+
+    const {data:session}=useSession();
     
 
     useEffect (()=>{
@@ -78,10 +83,56 @@ export default function Infos({product, setActiveImg}){
 
     };
 
+    ////------------------------------------
+
+    const handleWishlist= async ()=>{
+        try {
+            if(!session){
+                return signIn();
+            }
+
+            const {data}=await axios.put("/api/user/wishlist",{
+                product_id:product._id,
+                style:product.style,
+            });
+
+            dispatch(
+                showDialog({
+                    header:"Product Added to Wishlist successfully",
+                    msgs:[
+                        {
+                            msg:data?.message,
+                            type:"success",
+                        },
+                    ],
+
+                })
+            )
+            
+        } catch (error) {
+
+            dispatch(
+                showDialog(
+                    {
+                        header:"Error adding products to wishlist",
+                        msgs:[
+                            {
+                                msg:error.response?.data?.message,
+                                type:"error"
+                            }
+                        ]
+                    }
+                )
+            )
+            
+        }
+    }
+
     
 
     return(
         <div className={styles.infos}>
+        <DialogModal type="success"/>
             <div className={styles.infos__container}>
                 <h1 className={styles.infos__name}>
                    {product.name} 
@@ -208,7 +259,7 @@ export default function Infos({product, setActiveImg}){
                         <b> ADD TO CART </b>
                     </button>
 
-                    <button>
+                    <button onClick={()=>handleWishlist()}>
                         <BsHeart/>
                         WISHLIST
                     </button>

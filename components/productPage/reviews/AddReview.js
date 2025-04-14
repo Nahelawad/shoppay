@@ -133,4 +133,4 @@ export default function AddReview({product,setReviews}){
     </div>
 }
 
-let fits= ["Small","True to size","Large"];
+let fits= ["Small","True to size","Large","No fitting Item"];

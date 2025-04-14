@@ -68,6 +68,17 @@ const userSchema=new mongoose.Schema({
                 },
             },
         ],
+        wishlist:[
+            {
+                product:{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref:"Product",
+                },
+                style:{
+                    type:String,
+                },
+            },
+        ],
         },
 {
     timestamps:true,

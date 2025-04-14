@@ -268,7 +268,7 @@ export const FlashDealsArray=[
     sold:"13",},
     
     {
-        image:"https://tailoredathlete.co.uk/cdn/shop/files/fashionfit_black_075_1200x.jpg?v=1703848330",
+        image:"https://i1.adis.ws/i/ArsenalDirect/mit6141_f?$pdpMainImage$",
         price:"41",
         discount:"13",
         link:"",
@@ -276,7 +276,7 @@ export const FlashDealsArray=[
         
     },
     {
-        image:"https://tailoredathlete.co.uk/cdn/shop/files/fashionfit_black_075_1200x.jpg?v=1703848330",
+        image:"https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQCzcbLc5WewoSiWhAdhUh7fNXHMfmuUXwitfZycPKbnrejn5brd8NCOVOupRfJDy_NQ4ygSINDQ3NfBkdc0vvNfBXx4JHhouccAiIlX0Q9vyBGw03hAUbiuQ",
         price:"91",
         discount:"33",
         link:"",
@@ -284,39 +284,7 @@ export const FlashDealsArray=[
         
     },
     {
-        image:"https://tailoredathlete.co.uk/cdn/shop/files/fashionfit_black_075_1200x.jpg?v=1703848330",
-        price:"91",
-        discount:"33",
-        link:"",
-        sold:"123",
-        
-    },
-    {
-        image:"https://tailoredathlete.co.uk/cdn/shop/files/fashionfit_black_075_1200x.jpg?v=1703848330",
-        price:"91",
-        discount:"33",
-        link:"",
-        sold:"123",
-        
-    },
-    {
-        image:"https://tailoredathlete.co.uk/cdn/shop/files/fashionfit_black_075_1200x.jpg?v=1703848330",
-        price:"91",
-        discount:"33",
-        link:"",
-        sold:"123",
-        
-    },
-    {
-        image:"https://tailoredathlete.co.uk/cdn/shop/files/fashionfit_black_075_1200x.jpg?v=1703848330",
-        price:"91",
-        discount:"33",
-        link:"",
-        sold:"123",
-        
-    },
-    {
-        image:"https://tailoredathlete.co.uk/cdn/shop/files/fashionfit_black_075_1200x.jpg?v=1703848330",
+        image:"https://www.sportsdirect.com/images/products/36738701_l.jpg",
         price:"91",
         discount:"33",
         link:"",
