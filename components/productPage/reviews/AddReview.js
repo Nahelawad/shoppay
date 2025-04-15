@@ -9,9 +9,12 @@ import DialogModal from "../../../components/dialogModal"
 import dataURItoBlob from "../../../utils/dataURItoBlob";
 import { uploadImages } from "../../../requests/upload";
 import axios from "axios";
+import {RingLoader} from "react-spinners"
 
 
 export default function AddReview({product,setReviews}){
+
+    const [loading,setLoading]=useState(false);
     const dispatch=useDispatch();
     useEffect(()=>{
         dispatch(hideDialog());
@@ -25,6 +28,7 @@ export default function AddReview({product,setReviews}){
     let uploaded_images=[];
 
     const handleSubmit =async()=>{
+        setLoading(true);
         let msgs=[];
         if (!style){
             msgs.push({
@@ -78,6 +82,7 @@ export default function AddReview({product,setReviews}){
             setRating("");
             setReview("");
         }
+        setLoading(false);
     };
     
     
@@ -126,7 +131,11 @@ export default function AddReview({product,setReviews}){
            <button
            
            onClick={()=>handleSubmit()}
-           className={styles.login_btn}>Submit review</button>
+           disabled={loading}
+           className={`${styles.login_btn} ${loading?styles.disabled:""}`}>Submit review
+           
+           {loading && <RingLoader loading={loading} color="#fff" size="30"/>}
+           </button>
 
 
         </div>
