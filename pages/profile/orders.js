@@ -29,7 +29,7 @@ export default function index({user,tab,orders}){
                 <ul>
                     {
                         ordersLinks.map((link,i)=>(
-                            <li key={i} className={slugify(link.name,{lower:true})==router.query.q.split("__")[0]?styles.active:""}>
+                            <li key={i} className={slugify(link.name,{lower:true})==router.query.q?.split("__")[0]?styles.active:""}>
                                 <Link href={`/profile/orders?tab=${tab}&q=${slugify(link.name,{
                                     lower:true,
                                 })}__${link.filter}`}>
@@ -108,7 +108,7 @@ export async function getServerSideProps(ctx){
     const {query,req}=ctx;
     const session= await getSession({req});
     const tab=query.tab || 0;
-    const filter=query.q.split("__")[1];
+    const filter=query.q?.split("__")[1];
     let orders=[];
     if(!filter){
         orders=await Order.find({user:session?.user.id}).sort({
