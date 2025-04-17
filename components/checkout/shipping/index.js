@@ -29,7 +29,7 @@ const initialValues={
 
 }
 
-export default function Shipping( {user,addresses,setAddresses} ){
+export default function Shipping( {user,addresses,setAddresses,profile} ){
 
    
     const [shipping,setShipping]=useState(initialValues);
@@ -116,12 +116,16 @@ export default function Shipping( {user,addresses,setAddresses} ){
 
    return(
     <div className={styles.shipping}>
-        <div className={styles.header}>
+        {
+            !profile && (
+                <div className={styles.header}>
             <h3>
                 Shipping Information
             </h3>
 
         </div>
+            )
+        }
         <div className={styles.addresses}>
             {
                 addresses.map((address)=>(
@@ -147,7 +151,7 @@ export default function Shipping( {user,addresses,setAddresses} ){
                     >
                         
                      <div className={styles.address__side}>
-                        <img src={user.image} style={{height:"50px", width:"50px"}} alt=""/>
+                        <img src={profile?user.user.image:user.image} style={{height:"50px", width:"50px"}} alt=""/>
                      </div>
                      <div className={styles.address__col}>
                         <span>

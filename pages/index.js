@@ -62,7 +62,6 @@ export default function Home({country,products}) {
           />
 
         </div>
-        <ProductsSwiper products={Men_swiper}/>
         <div className={styles.products}>
           {
             products.map((product)=>(
