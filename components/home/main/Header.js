@@ -7,13 +7,13 @@ export default function Header(){
         <div className={styles.header}>
           <ul>
             <li>
-              <Link href=""> Store</Link>
+              <Link href="/browse"> Store</Link>
             </li>
             <li>
-              <Link href=""> Electronics</Link>
+              <Link href="/browse"> Electronics</Link>
             </li>
             <li>
-              <Link href=""> Watches</Link>
+              <Link href="/browse"> Watches</Link>
             </li>
           </ul>
 
