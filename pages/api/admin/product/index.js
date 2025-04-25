@@ -63,5 +63,26 @@ handler.post( async (req,res)=>{
 
 });
 
+handler.delete(async (req,res)=>{
+    try {
+        connectDb();
+        const {id}=req.body;
+
+        const product=await Product.findById(id);
+        if(!product){
+            return res.status(400).json({message:"Product Not found."});
+        }
+
+        await Product.findByIdAndDelete(id);
+        disconnectDb();
+        return res.status(200).json({message:"Product deleted successfully."})
+        
+    } catch (error) {
+        console.error("Delete Error:",error);
+        return res.status(500).json({message:error.message});
+        
+    }
+})
+
 
 export default handler;

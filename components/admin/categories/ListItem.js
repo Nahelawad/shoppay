@@ -9,6 +9,7 @@ export default function ListItem({category,setCategories}){
     const [open,setOpen]=useState(false);
     const [name,setName]=useState("");
     const input =useRef(null);
+    
     const handleRemove=async (id)=>{
         try {
             const {data}=await axios.delete("/api/admin/category",{data:{id},});

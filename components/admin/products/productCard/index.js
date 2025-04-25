@@ -8,8 +8,23 @@ import Link from "next/link";
 import { TbEdit } from "react-icons/tb";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function ProductCard({product}){
+      
+
+    const deleteProductHandler=async (id)=>{
+       try {
+          const {data} =await axios.delete("/api/admin/product",{data:{id},});
+          toast.success(data.message);
+          window.location.reload();
+       } catch (error) {
+        toast.error(error?.response?.data?.message);
+        
+       }
+    }
+
     return(
 
         <div className={styles.product}>
@@ -63,9 +78,11 @@ export default function ProductCard({product}){
                     <Link href={`/product/${product.slug}?style=${i}`}>
                     <AiOutlineEye style={{fill:"green"}} />
                     </Link>
-                    <Link href={""}>
-                    <RiDeleteBin2Line style={{fill:"red"}}/>
-                    </Link>
+                    
+                    
+                    <RiDeleteBin2Line onClick={()=>deleteProductHandler(product._id)} style={{fill:"red", cursor:"pointer"}}/>
+                    
+        
 
                    </div>
                 </div>

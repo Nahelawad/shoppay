@@ -5,6 +5,8 @@ import { connectDb, disconnectDb } from "../../../../utils/db";
 import Product from "../../../../models/Product";
 import Category from "../../../../models/Category";
 import ProductCard from "../../../../components/admin/products/productCard";
+import mongoose from "mongoose";
+
 
 
 export default function ProductDetails({ product }) {
@@ -27,6 +29,10 @@ export default function ProductDetails({ product }) {
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return { notFound: true };
+  }
 
   await connectDb();
   const product = await Product.findById(id)
