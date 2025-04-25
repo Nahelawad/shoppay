@@ -8,7 +8,8 @@ import { filterArray,removeDuplicates,randomize} from "../utils/arrays_utils";
 import Link from "next/link";
 import ProductCard from "../components/productCard";
 import CategoryFilter from "../components/browse/CategoryFilter";
-export default function Browse({categories,products,subCategories}){
+import SizesFilter from "../components/browse/SizesFilter";
+export default function Browse({categories,products,subCategories,sizes}){
 
      
        return (
@@ -40,7 +41,10 @@ export default function Browse({categories,products,subCategories}){
                         Clear All (3)
                     </button>
                     <CategoryFilter categories={categories} subCategories={subCategories}/>
+                    <SizesFilter sizes={sizes}/>
                 </div>
+                
+
                 <div className={styles.browse__store_products_wrap}>
                     <div className={styles.browse__store_products}>
                         {
@@ -79,7 +83,7 @@ export async function getServerSideProps(context) {
 
     let colors=await Product.find().distinct("subProducts.color.color");
     let brandsDb= await Product.find().distinct("brand");
-    let sizes=await Product.find().distinct("subProducts.sizes.size");
+    let sizesDB=await Product.find().distinct("subProducts.sizes.size");
     let details=await Product.find().distinct("details");
     let stylesDb= filterArray(details,"Style");
     let patternsDb= filterArray(details,"Pattern Type");
@@ -87,6 +91,7 @@ export async function getServerSideProps(context) {
     let styles=removeDuplicates(stylesDb);
     let patterns=removeDuplicates(patternsDb);
     let materials=removeDuplicates(materialsDb);
+    let sizes=removeDuplicates(sizesDB);
     
     console.log(randomize(sizes));
     console.log(sizes);
@@ -96,6 +101,7 @@ export async function getServerSideProps(context) {
             categories:JSON.parse(JSON.stringify(categories)),
             products:JSON.parse(JSON.stringify(products)),
             subCategories:JSON.parse(JSON.stringify(subCategories)),
+            sizes,
         },
     };
      

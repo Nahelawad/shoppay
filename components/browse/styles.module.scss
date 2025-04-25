@@ -38,4 +38,18 @@
             }
         }
     }
+
+    &__sizes{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        margin-top: 10px;
+        &_size{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        label{
+            font-size: 15px;
+        }
+    }
 }

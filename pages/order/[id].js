@@ -86,8 +86,10 @@ export default function order({orderData,paypal_client_id,stripe_public_key}){
             try {
                 dispatch({type:"PAY_REQUEST"});
                 const {data}=await axios.put(`/api/order/${orderData._id}/pay`,{
-                    details,
                     order_id:orderData._id,
+                    id:details.id,
+                    status:details.status,
+                    email_address:details.payer.email_address,
                 }
                     
                 );
