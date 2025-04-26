@@ -9,7 +9,8 @@ import Link from "next/link";
 import ProductCard from "../components/productCard";
 import CategoryFilter from "../components/browse/CategoryFilter";
 import SizesFilter from "../components/browse/SizesFilter";
-export default function Browse({categories,products,subCategories,sizes}){
+import BrandsFilter from "../components/browse/BrandsFilter";
+export default function Browse({categories,products,subCategories,sizes,brands}){
 
      
        return (
@@ -42,6 +43,7 @@ export default function Browse({categories,products,subCategories,sizes}){
                     </button>
                     <CategoryFilter categories={categories} subCategories={subCategories}/>
                     <SizesFilter sizes={sizes}/>
+                    <BrandsFilter brands={brands}/>
                 </div>
                 
 
@@ -92,9 +94,10 @@ export async function getServerSideProps(context) {
     let patterns=removeDuplicates(patternsDb);
     let materials=removeDuplicates(materialsDb);
     let sizes=removeDuplicates(sizesDB);
+    let brands=removeDuplicates(brandsDb);
     
     console.log(randomize(sizes));
-    console.log(sizes);
+    console.log(brands);
 
     return{
         props:{
@@ -102,6 +105,7 @@ export async function getServerSideProps(context) {
             products:JSON.parse(JSON.stringify(products)),
             subCategories:JSON.parse(JSON.stringify(subCategories)),
             sizes,
+            brands,
         },
     };
      
