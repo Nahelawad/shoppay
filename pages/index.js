@@ -80,6 +80,8 @@ export default function Home({country,products}) {
 export async function getServerSideProps() {
   connectDb();
   let products = await Product.find().lean();
+
+  console.log(products);
     
   
   let data=await axios
@@ -96,7 +98,7 @@ export async function getServerSideProps() {
   return{
     props:{
       products:JSON.parse(JSON.stringify(products)),
-      
+
       //country:{name:data.name, flag:data.flag.emojitwo},
       country:{
         name:"UK",
@@ -104,6 +106,7 @@ export async function getServerSideProps() {
         },
         
     },
+    
   };
   
 }
