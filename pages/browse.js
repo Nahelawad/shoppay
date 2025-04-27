@@ -10,12 +10,55 @@ import ProductCard from "../components/productCard";
 import CategoryFilter from "../components/browse/CategoryFilter";
 import SizesFilter from "../components/browse/SizesFilter";
 import BrandsFilter from "../components/browse/BrandsFilter";
-export default function Browse({categories,products,subCategories,sizes,brands}){
+import StylesFilter from "../components/browse/stylesFilter";
+import HeadingFilters from "../components/browse/headingFilters";
+import { useRouter } from "next/router";
+export default function Browse({categories,products,subCategories,sizes,colors,brands,stylesData}){
+
+    const router = useRouter();
+
+    const filter =({search,category,brand,style})=>{
+        const path=router.pathname;
+        const {query} = router;
+
+        if(search) query.search=search;
+        if(category) query.category=category;
+        if(brand) query.brand=brand;
+        if(style) query.style=style;
+
+        router.push({
+            pathname:path,
+            query:query,
+        });
+    };
+
+    const searchHandler = (search)=>{
+        if (search == ""){
+            filter({search:{}});
+        }else{
+            filter({search});
+        }
+    };
+
+    const categoryHandler = (category)=>{
+            filter({category});
+        
+    };
+
+    const brandHandler = (brand)=>{
+        filter({brand});
+    
+};
+
+const styleHandler = (style)=>{
+    filter({style});
+
+};
 
      
        return (
         <div className={styles.BrowseHeader}>
-           <Header country="UK"/>
+           <Header searchHandler={searchHandler} country="UK"/>
 
            <div className={styles.browse__container}>
             <div className={styles.browse__path}>
@@ -41,13 +84,15 @@ export default function Browse({categories,products,subCategories,sizes,brands})
                     <button className={styles.browse__clearBtn}>
                         Clear All (3)
                     </button>
-                    <CategoryFilter categories={categories} subCategories={subCategories}/>
+                    <CategoryFilter categories={categories} subCategories={subCategories} categoryHandler={categoryHandler}/>
                     <SizesFilter sizes={sizes}/>
-                    <BrandsFilter brands={brands}/>
+                    <BrandsFilter brands={brands} brandHandler={brandHandler}/>
+                    <StylesFilter data={stylesData} styleHandler={styleHandler} />
                 </div>
                 
 
                 <div className={styles.browse__store_products_wrap}>
+                    <HeadingFilters/>
                     <div className={styles.browse__store_products}>
                         {
                             products.map((product)=>(
@@ -72,8 +117,53 @@ export default function Browse({categories,products,subCategories,sizes,brands})
 
 
 export async function getServerSideProps(context) {
+  const {query} = context;
+
+  const searchQuery=query.search || "";
+  const categoryQuery=query.category || "";
+  const brandQuery=query.brand || "";
+  const styleQuery=query.style?query.style.split("_") : [];
+  const styleRegex = `^${styleQuery[0] || ""}`;
+  const styleSearchRegex=createRegex(styleQuery,styleRegex)
+
+
+ const search =searchQuery && searchQuery !==""?{
+    name:{
+        $regex:searchQuery,
+        $options:"i",
+    }
+ }: {};
+
+ const category=categoryQuery && categoryQuery !=="" ?{category:categoryQuery}:{};
+
+ const brand=brandQuery && brandQuery !=="" ?{brand:brandQuery}:{};
+
+
+ const style =styleQuery && styleQuery !==""?{
+    "details.value":{
+        $regex:styleSearchRegex,
+        $options:"i",
+    },
+ }: {};
+
+
+ function createRegex(data,styleRegex){
+   
+    if(data.length>1){
+        for(var i=1; i<data.length; i++){
+            styleRegex +=`|^${data[i]}`;
+        }
+    }
+
+
+
+    return styleRegex;
+ }
+
+
+
     connectDb();
-    let ProductsDb=await Product.find().sort({createdAt:-1 }).lean();
+    let ProductsDb=await Product.find({...search,...category,...brand,...style}).sort({createdAt:-1 }).lean();
     let products=randomize(ProductsDb);
     let categories=await Category.find().lean();
     let subCategories=await SubCategory.find().
@@ -84,15 +174,11 @@ export async function getServerSideProps(context) {
     .lean();
 
     let colors=await Product.find().distinct("subProducts.color.color");
-    let brandsDb= await Product.find().distinct("brand");
-    let sizesDB=await Product.find().distinct("subProducts.sizes.size");
+    let brandsDb= await Product.find({...category}).distinct("brand");
+    let sizesDB=await Product.find({...category}).distinct("subProducts.sizes.size");
     let details=await Product.find().distinct("details");
     let stylesDb= filterArray(details,"Style");
-    let patternsDb= filterArray(details,"Pattern Type");
-    let materialsDb=filterArray(details,"Material");
     let styles=removeDuplicates(stylesDb);
-    let patterns=removeDuplicates(patternsDb);
-    let materials=removeDuplicates(materialsDb);
     let sizes=removeDuplicates(sizesDB);
     let brands=removeDuplicates(brandsDb);
     
@@ -105,7 +191,9 @@ export async function getServerSideProps(context) {
             products:JSON.parse(JSON.stringify(products)),
             subCategories:JSON.parse(JSON.stringify(subCategories)),
             sizes,
+            colors,
             brands,
+            stylesData:styles,
         },
     };
      

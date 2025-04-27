@@ -6,11 +6,11 @@ import Main from "./Main";
 
 
 
-export default function Header({country}){
+export default function Header({country, searchHandler }){
     return <header className={styles.header}>
        <Ad/>
        <Top country={country}/>
-       <Main/>
+       <Main searchHandler={searchHandler} />
          </header>
    
 }
