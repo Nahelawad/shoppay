@@ -11,16 +11,19 @@ import Category from "../components/home/category";
 import { Women_dresses ,Gaming_Videogames,Mensfashion, Men_swiper} from "../data/home";
 import { useMediaQuery } from 'react-responsive'
 import ProductsSwiper from "../components/productSwiper/index";
-
 import { connectDb } from "../utils/db";
 import Product from "../models/Product";
 import ProductCard from "../components/productCard";
+import { useRouter } from "next/router";
 
 export default function Home({country,products}) {
   console.log("products",products)
   const { data: session } = useSession();
   const isMedium=useMediaQuery({query:"(max-width:850px)"});
   const MobilePhone=useMediaQuery({query:"(max-width:550px)"});
+
+  const router=useRouter();
+
   return (
 
     <div>
@@ -45,7 +48,7 @@ export default function Home({country,products}) {
             )
           }
 
-{
+          {
             MobilePhone &&(
               <Category
               header="Gaming and video games"

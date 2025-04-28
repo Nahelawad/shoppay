@@ -5,11 +5,10 @@ import { BsPlusLg } from "react-icons/bs";
 import { useRouter } from "next/router";
 
 
-export default function BrandsFilter({brands,brandHandler}){
+export default function BrandsFilter({brands,brandHandler,replaceQuery}){
     const router =useRouter();
-    const existedBrand=router.query.brand|| "";
     const [show,setShow]=useState(true);
-    
+   
     
     return (
         <div className={styles.filter}>
@@ -26,12 +25,29 @@ export default function BrandsFilter({brands,brandHandler}){
                 show && (
                     <div className={styles.filter__sizes}>
                         {
-                            brands.map((brand,i)=>(
-                                <button className={styles.filter__brand} onClick={()=>brandHandler(existedBrand?`${existedBrand}_${brand}`:brand)}>
-                                    <img src= {`../../../images/brands/${brand}.png`}/>
-                                </button>
-                            ))
-                        }
+                            brands.map((brand,i)=>{
+                                
+                                const check= replaceQuery("brand",brand);
+                                return(
+                                    <button
+                                     key={brand}
+                                         className={`${styles.filter__brand} ${check.active ? styles.activeFilter : ""}`} 
+                                        onClick={() => {
+                                        if (typeof check.result === "object") {
+                                         const path = router.pathname;
+                                         const { query } = router;
+                                        delete query.brand;
+                                         router.push({ pathname: path, query: query });
+                                        } else {
+                                        brandHandler(check.result);
+                                                             }
+                                                            }}
+                                                            >
+  <img src={`../../../images/brands/${brand}.png`} />
+</button>
+
+                               
+                            );})}
 
 
                     </div>

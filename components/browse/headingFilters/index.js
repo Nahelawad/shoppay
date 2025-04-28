@@ -5,16 +5,19 @@ import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import Link from "next/link";
 import { BsCheckLg } from "react-icons/bs";
+import { useRouter } from "next/router";
 
-export default function HeadingFilters(){
+export default function HeadingFilters({priceHandler,multiPriceHandler}){
+
+    const router=useRouter();
     const [show,setShow]=useState(false);
     return <div className={styles.filters}>
         <div className={styles.filters__price}>
             <span>
                 Price:
             </span>
-            <input type="number" placeholder="min" min="0"/>
-            <input type="number" placeholder="max" max="0"/>
+            <input type="number" placeholder="min" min="0" value={router.query.price?.split("_")[0] ||""} onChange={(e)=>priceHandler(e.target.value,"min")}/>
+            <input type="number" placeholder="max" max="0" value={router.query.price?.split("_")[1] ||""} onChange={(e)=>priceHandler(e.target.value,"max")}/>
         </div>
 
         <div className={styles.filters__priceBtns}>
@@ -26,7 +29,10 @@ export default function HeadingFilters(){
             arrow
             >
 
-                <button className={styles.tooltip_btn}>
+                <button className={styles.tooltip_btn}
+                  onClick={()=>multiPriceHandler(0,10)}
+                
+                >
                     <span style={{height:"10%"}}>
 
                     </span>
@@ -43,7 +49,7 @@ export default function HeadingFilters(){
             arrow
             >
 
-                <button className={styles.tooltip_btn} >
+                <button className={styles.tooltip_btn}  onClick={()=>multiPriceHandler(10,50)} >
                     <span>
 
                     </span>
@@ -58,9 +64,10 @@ export default function HeadingFilters(){
             </h2>}
             placement="top"
             arrow
+            onClick={()=>multiPriceHandler(50,100)}
             >
 
-                <button className={styles.tooltip_btn}>
+                <button className={styles.tooltip_btn} onClick={()=>multiPriceHandler(10,50)} >
                 <span style={{height:"50%"}}>
 
                 </span>
@@ -75,9 +82,10 @@ export default function HeadingFilters(){
             </h2>}
             placement="top"
             arrow
+            onClick={()=>multiPriceHandler(100,500)}
             >
 
-                <button className={styles.tooltip_btn}>
+                <button className={styles.tooltip_btn}  onClick={()=>multiPriceHandler(10,50)}>
                     <span style={{height:"75%"}}>
 
                     </span>
@@ -92,9 +100,10 @@ export default function HeadingFilters(){
             </h2>}
             placement="top"
             arrow
+            onClick={()=>multiPriceHandler(500,"")}
             >
 
-                <button className={styles.tooltip_btn}>
+                <button className={styles.tooltip_btn} onClick={()=>multiPriceHandler(10,50)}>
                     <span style={{height:"100%"}}>
 
                     </span>

@@ -13,11 +13,11 @@ import BrandsFilter from "../components/browse/BrandsFilter";
 import StylesFilter from "../components/browse/stylesFilter";
 import HeadingFilters from "../components/browse/headingFilters";
 import { useRouter } from "next/router";
-export default function Browse({categories,products,subCategories,sizes,colors,brands,stylesData}){
+export default function Browse({categories,products,subCategories,sizes,brands,stylesData,price}){
 
     const router = useRouter();
 
-    const filter =({search,category,brand,style,size})=>{
+    const filter =({search,category,brand,style,size,price})=>{
         const path=router.pathname;
         const {query} = router;
 
@@ -26,6 +26,7 @@ export default function Browse({categories,products,subCategories,sizes,colors,b
         if(brand) query.brand=brand;
         if(style) query.style=style;
         if(size) query.size=size;
+        if(price) query.price=price;
 
         router.push({
             pathname:path,
@@ -61,6 +62,63 @@ const sizeHandler = (size)=>{
 
 };
 
+const multiPriceHandler = (min,max)=>{
+    filter({price:`${min}_${max}`});
+};
+
+
+const priceHandler=(price,type)=>{
+    let priceQuery=router.query.price?.split("_") || "";
+    let min=priceQuery[0] || "";
+    let max=priceQuery[1] || "";
+    let newPrice="";
+
+    if(type==="min"){
+        newPrice = `${price}_${max}`;
+    }else{
+        newPrice = `${min}_${price}`;
+    }
+
+    filter({price: newPrice})
+}
+
+function checkChecked(queryName,value){
+    if(router.query[queryName]?.search(value) !==-1){
+        return true;
+    }
+    return false;
+ }
+
+ function replaceQuery(queryName, value) {
+    const existedQuery = router.query[queryName];
+    let result = "";
+  
+    if (existedQuery) {
+      const valuesArray = existedQuery.split("_").filter(Boolean); 
+  
+      if (valuesArray.includes(value)) {
+        const filtered = valuesArray.filter((v) => v !== value);
+  
+        if (filtered.length > 0) {
+          result = filtered.join("_");
+        } else {
+          
+          result = {}; 
+        }
+      } else {
+        result = [...valuesArray, value].join("_");
+      }
+    } else {
+      result = value;
+    }
+  
+    return {
+      result,
+      active: existedQuery?.split("_").includes(value),
+    };
+  }
+  
+
      
        return (
         <div className={styles.BrowseHeader}>
@@ -90,15 +148,15 @@ const sizeHandler = (size)=>{
                     <button className={styles.browse__clearBtn}>
                         Clear All (3)
                     </button>
-                    <CategoryFilter categories={categories} subCategories={subCategories} categoryHandler={categoryHandler}/>
+                    <CategoryFilter categories={categories} subCategories={subCategories} categoryHandler={categoryHandler} checkChecked={checkChecked}/>
                     <SizesFilter sizes={sizes} sizeHandler={sizeHandler}/>
-                    <BrandsFilter brands={brands} brandHandler={brandHandler}/>
+                    <BrandsFilter brands={brands} brandHandler={brandHandler} replaceQuery={replaceQuery}/>
                     <StylesFilter data={stylesData} styleHandler={styleHandler} />
                 </div>
                 
 
                 <div className={styles.browse__store_products_wrap}>
-                    <HeadingFilters/>
+                    <HeadingFilters priceHandler={priceHandler} multiPriceHandler={multiPriceHandler}/>
                     <div className={styles.browse__store_products}>
                         {
                             products.map((product)=>(
@@ -127,6 +185,8 @@ export async function getServerSideProps(context) {
 
   const searchQuery=query.search || "";
   const categoryQuery=query.category || "";
+
+  const priceQuery=query.price?query.price.split("_"): [];
 
  
 
@@ -175,6 +235,15 @@ export async function getServerSideProps(context) {
  }: {};
 
 
+ const price = priceQuery.length > 0 ? {
+    "subProducts.sizes.price": {
+      ...(priceQuery[0] ? { $gte: Number(priceQuery[0]) } : {}),
+      ...(priceQuery[1] ? { $lte: Number(priceQuery[1]) } : {}),
+    }
+  } : {};
+  
+
+
 
 
 
@@ -186,15 +255,15 @@ export async function getServerSideProps(context) {
         }
     }
 
-
-
     return styleRegex;
  }
+
+ 
 
 
 
     connectDb();
-    let ProductsDb=await Product.find({...search,...category,...brand,...style,...size,}).sort({createdAt:-1 }).lean();
+    let ProductsDb=await Product.find({...search,...category,...brand,...style,...size,...price}).sort({createdAt:-1 }).lean();
     let products=randomize(ProductsDb);
     let categories=await Category.find().lean();
     let subCategories=await SubCategory.find().

@@ -74,8 +74,9 @@
             object-fit: contain;
         }
 
-        &:focus{
-            border: 1px solid #000;
-        }
     }
+}
+
+.activeFilter{
+    border: 1px solid #222;
 }
