@@ -5,7 +5,7 @@ import { BsPlusLg } from "react-icons/bs";
 import { useRouter } from "next/router";
 
 
-export default function StylesFilter({data,styleHandler}){
+export default function StylesFilter({data,styleHandler,replaceQuery}){
     const router=useRouter();
     const existedStyle=router.query.style  || "";
     
@@ -27,17 +27,17 @@ export default function StylesFilter({data,styleHandler}){
                 show && (
                     <div className={styles.filter__sizes}>
                         {
-                            data.map((style,i)=>(
-                               <div className={styles.filter__sizes_size}
+                            data.map((style,i)=>{
+                                const check= replaceQuery("style",style);
+                                return (
+                                    <div className={styles.filter__sizes_size}
                                
-                               onClick={()=>styleHandler(
-                                existedStyle? `${existedStyle}_${style}`:style
-                               )}
+                               onClick={()=>styleHandler(check.result)}
                                
                                >
 
     
-                                <input type="checkbox" name="style" id={style}/>
+                                <input type="checkbox" name="style" id={style} checked={check.active}/>
                                 <label htmlFor={style}>
                                     {style}
 
@@ -45,7 +45,10 @@ export default function StylesFilter({data,styleHandler}){
                                 
 
                                </div>
-                            ))
+                                )
+                            }
+                               
+                            )
                         }
 
 

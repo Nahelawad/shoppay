@@ -7,10 +7,14 @@ import Link from "next/link";
 import { BsCheckLg } from "react-icons/bs";
 import { useRouter } from "next/router";
 
-export default function HeadingFilters({priceHandler,multiPriceHandler}){
+export default function HeadingFilters({priceHandler,multiPriceHandler,shippingHandler,replaceQuery}){
 
     const router=useRouter();
     const [show,setShow]=useState(false);
+    const check =replaceQuery(
+        "shipping",
+        router.query.shipping == "0"? false:"0"
+    )
     return <div className={styles.filters}>
         <div className={styles.filters__price}>
             <span>
@@ -114,8 +118,8 @@ export default function HeadingFilters({priceHandler,multiPriceHandler}){
 
         </div>
 
-        <div className={styles.filters__shipping}>
-            <input type="checkbox" name="shipping" id="shipping"/>
+        <div className={styles.filters__shipping} onClick={()=>shippingHandler(check.result)}>
+            <input type="checkbox" name="shipping" id="shipping" checked={router.query.shipping == "0"}/>
             <label htmlFor="shipping">
                 Free Shipping
             </label>

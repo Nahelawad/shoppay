@@ -17,7 +17,7 @@ export default function Browse({categories,products,subCategories,sizes,brands,s
 
     const router = useRouter();
 
-    const filter =({search,category,brand,style,size,price})=>{
+    const filter =({search,category,brand,style,size,price,shipping})=>{
         const path=router.pathname;
         const {query} = router;
 
@@ -27,6 +27,7 @@ export default function Browse({categories,products,subCategories,sizes,brands,s
         if(style) query.style=style;
         if(size) query.size=size;
         if(price) query.price=price;
+        if(shipping) query.shipping=shipping;
 
         router.push({
             pathname:path,
@@ -82,6 +83,10 @@ const priceHandler=(price,type)=>{
     filter({price: newPrice})
 }
 
+const shippingHandler=(shipping)=>{
+    filter({shipping});
+}
+
 function checkChecked(queryName,value){
     if(router.query[queryName]?.search(value) !==-1){
         return true;
@@ -94,17 +99,11 @@ function checkChecked(queryName,value){
     let result = "";
   
     if (existedQuery) {
-      const valuesArray = existedQuery.split("_").filter(Boolean); 
+      const valuesArray = existedQuery.split("_").filter(Boolean);
   
       if (valuesArray.includes(value)) {
         const filtered = valuesArray.filter((v) => v !== value);
-  
-        if (filtered.length > 0) {
-          result = filtered.join("_");
-        } else {
-          
-          result = {}; 
-        }
+        result = filtered.join("_"); 
       } else {
         result = [...valuesArray, value].join("_");
       }
@@ -117,6 +116,7 @@ function checkChecked(queryName,value){
       active: existedQuery?.split("_").includes(value),
     };
   }
+  
   
 
      
@@ -148,15 +148,15 @@ function checkChecked(queryName,value){
                     <button className={styles.browse__clearBtn}>
                         Clear All (3)
                     </button>
-                    <CategoryFilter categories={categories} subCategories={subCategories} categoryHandler={categoryHandler} checkChecked={checkChecked}/>
+                    <CategoryFilter categories={categories} subCategories={subCategories} categoryHandler={categoryHandler} replaceQuery={replaceQuery}/>
                     <SizesFilter sizes={sizes} sizeHandler={sizeHandler}/>
                     <BrandsFilter brands={brands} brandHandler={brandHandler} replaceQuery={replaceQuery}/>
-                    <StylesFilter data={stylesData} styleHandler={styleHandler} />
+                    <StylesFilter data={stylesData} styleHandler={styleHandler} replaceQuery={replaceQuery}/>
                 </div>
                 
 
                 <div className={styles.browse__store_products_wrap}>
-                    <HeadingFilters priceHandler={priceHandler} multiPriceHandler={multiPriceHandler}/>
+                    <HeadingFilters priceHandler={priceHandler} multiPriceHandler={multiPriceHandler} shippingHandler={shippingHandler} replaceQuery={replaceQuery}/>
                     <div className={styles.browse__store_products}>
                         {
                             products.map((product)=>(
@@ -187,6 +187,7 @@ export async function getServerSideProps(context) {
   const categoryQuery=query.category || "";
 
   const priceQuery=query.price?query.price.split("_"): [];
+  const shippingQuery=query.shipping || 0;
 
  
 
@@ -241,6 +242,10 @@ export async function getServerSideProps(context) {
       ...(priceQuery[1] ? { $lte: Number(priceQuery[1]) } : {}),
     }
   } : {};
+
+  const shipping= shippingQuery && shippingQuery == "0"?{
+    shipping:0,
+  }:{};
   
 
 
@@ -263,7 +268,7 @@ export async function getServerSideProps(context) {
 
 
     connectDb();
-    let ProductsDb=await Product.find({...search,...category,...brand,...style,...size,...price}).sort({createdAt:-1 }).lean();
+    let ProductsDb=await Product.find({...search,...category,...brand,...style,...size,...price,...shipping}).sort({createdAt:-1 }).lean();
     let products=randomize(ProductsDb);
     let categories=await Category.find().lean();
     let subCategories=await SubCategory.find().
