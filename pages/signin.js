@@ -13,7 +13,6 @@ import { getCsrfToken, getProviders, getSession, signIn } from "next-auth/react"
 import axios from "axios";
 import Router from "next/router";
 import DotLoaderspinner from "../components/loaders/dotLoader";
-import { redirect } from "next/dist/server/api-utils";
 const initialvalues={
     login_email:"",
     login_password:"",
