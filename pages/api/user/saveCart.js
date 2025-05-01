@@ -16,7 +16,7 @@ handler.post(async (req,res)=>{
         let user = await User.findById(req.user);
         let existing_cart=await Cart.findOne({user:user._id});
         if(existing_cart){
-            await existing_cart.remove();
+            await existing_cart.deleteOne();
         }
         for(let i=0; i<cart.length;i++){
             let dbProduct= await Product.findById(cart[i]._id).lean();
@@ -52,6 +52,7 @@ handler.post(async (req,res)=>{
         disconnectDb();
        
     } catch(error){
+        console.log(error);
         return res.status(500).json({message:error.message});
     }
 
