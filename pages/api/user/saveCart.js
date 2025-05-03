@@ -1,5 +1,5 @@
 import nc from "next-connect";
-import { connectDb,disconnectDb } from "../../../utils/db";
+import { connectDb, disconnectDb } from "../../../utils/db";
 import Product from "../../../models/Product";
 import User from "../../../models/User";
 import Cart from "../../../models/Cart.js";
@@ -7,57 +7,67 @@ import auth from "../../../middleware/auth";
 
 const handler = nc().use(auth);
 
+handler.post(async (req, res) => {
+  try {
+    await connectDb();
 
-handler.post(async (req,res)=>{
-    try{
-        connectDb();
-        const {cart}=req.body;
-        let products=[];
-        let user = await User.findById(req.user);
-        let existing_cart=await Cart.findOne({user:user._id});
-        if(existing_cart){
-            await existing_cart.deleteOne();
-        }
-        for(let i=0; i<cart.length;i++){
-            let dbProduct= await Product.findById(cart[i]._id).lean();
-            let subProduct=dbProduct.subProducts[cart[i].style];
-            let tempProduct ={};
-            tempProduct.name=dbProduct.name;
-            tempProduct.product=dbProduct._id;
-            tempProduct.color={
-                color:cart[i].color.color,
-                image:cart[i].color.image,
-            };
-            tempProduct.image=subProduct.images[0].url;
-            tempProduct.qty=Number(cart[i].qty);
-            tempProduct.size=cart[i].size;
-            let price=Number(subProduct.sizes.find((p)=>p.size==cart[i].size).price);
-            tempProduct.price=subProduct.discount>0
-            ? (price-price/Number(subProduct.discount)).toFixed(2)
-            :price.toFixed(2);
-
-            products.push(tempProduct);
-        }
-        let cartTotal =0;
-
-        for(let i=0; i<products.length; i++ ){
-            cartTotal= cartTotal+products[i].price* products[i].qty;
-        }
-        await new Cart({
-            products,
-            cartTotal:cartTotal.toFixed(2),
-            user:user._id,
-        }).save();
-
-        disconnectDb();
-       
-    } catch(error){
-        console.log(error);
-        return res.status(500).json({message:error.message});
+    const { cart } = req.body;
+    const user = await User.findById(req.user);
+    const existing_cart = await Cart.findOne({ user: user._id });
+    if (existing_cart) {
+      await existing_cart.deleteOne();
     }
+    const dbProducts = await Promise.all(
+      cart.map((item) => Product.findById(item._id).lean())
+    );
 
+   
+    const products = cart.map((item, i) => {
+      const dbProduct = dbProducts[i];
+      const subProduct = dbProduct.subProducts[item.style];
+
+      const price = Number(
+        subProduct.sizes.find((p) => p.size == item.size).price
+      );
+      const finalPrice =
+        subProduct.discount > 0
+          ? (price - price / Number(subProduct.discount)).toFixed(2)
+          : price.toFixed(2);
+
+      return {
+        name: dbProduct.name,
+        product: dbProduct._id,
+        image: subProduct.images[0].url,
+        color: {
+          color: item.color.color,
+          image: item.color.image,
+        },
+        qty: Number(item.qty),
+        size: item.size,
+        price: finalPrice,
+      };
+    });
+
+    
+    const cartTotal = products.reduce(
+      (sum, p) => sum + parseFloat(p.price) * p.qty,
+      0
+    );
+
+    
+    const savedCart = await new Cart({
+      products,
+      cartTotal: cartTotal.toFixed(2),
+      user: user._id,
+    }).save();
+
+    await disconnectDb();
+    return res.status(200).json({ message: "Cart saved", cart: savedCart });
+  } catch (error) {
+    console.error(error);
+    await disconnectDb();
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 export default handler;
-
-

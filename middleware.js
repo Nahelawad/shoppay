@@ -21,6 +21,7 @@ export async function middleware(req){
         if (!session)
             return NextResponse.redirect(`${origin}`);
     }
+    
 
     if(pathname.startsWith("/admin")){
         if (!session)
