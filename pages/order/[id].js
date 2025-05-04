@@ -96,7 +96,7 @@ export default function order({orderData,paypal_client_id,stripe_public_key}){
                 console.log(data);
                 dispatch({type:"PAY_SUCCESS",payload:data});    
             } catch (error) {
-                dispatch({type:"PAY_ERROR",payload:error})
+                dispatch({type:"PAY_FAIL",payload:error})
                 
             }
         });

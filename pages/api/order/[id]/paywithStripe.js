@@ -7,7 +7,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const handler =nc().use(auth);
 
-handler.put(async(req,res)=>{
+handler.post(async(req,res)=>{
    try {
     await connectDb();
     const {amount,id}=req.body;
@@ -18,11 +18,15 @@ handler.put(async(req,res)=>{
         description:"NAHEL STORE",
         payment_method:id,
         confirm:true,
+        automatic_payment_methods:{
+            enabled:true,
+            allow_redirects:'never'
+        }
     });
 
     const order=await Order.findById(order_id);
     if(order){
-        order.ispaid=true;
+        order.isPaid=true;
         order.paidAt=Date.now();
         order.paymentResult={
             id:payment.id,
