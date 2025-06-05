@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
-import { activateEmailTemplate } from "../emails/activateEmailTemplate";
+
 
 const {OAuth2} =google.auth;
 
