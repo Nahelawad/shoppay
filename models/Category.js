@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const {ObjectId}=mongoose.Schema;
 
+
+//Creating the product category schema
+
 const categorySchema=new mongoose.Schema({
     name:{
         type:String,
@@ -21,4 +24,6 @@ const categorySchema=new mongoose.Schema({
 });
 
 const Category= mongoose.models.Category || mongoose.model("Category",categorySchema);
+
+// Export the Category model so it can be imported and used in other files
 export default Category;

@@ -1,12 +1,8 @@
 import nc from "next-connect";
-import { validateEmail } from "../../../utils/validation";
 import {connectDb, disconnectDb} from "../../../utils/db";
 import User from "../../../models/User";
 import bcrypt from "bcrypt";
-import { create } from "domain";
-import { createActivationToken,createResetToken } from "../../../utils/tokens";
-import { sendEmail } from "../../../utils/sendEmails";
-import { resetEmailTemplate } from "../../../emails/resetEmailTemplate";
+
 
 
 const handler = nc();

@@ -3,7 +3,6 @@ import auth from "../../../middleware/auth";
 import admin from "../../../middleware/admin";
 import { connectDb,disconnectDb } from "../../../utils/db";
 import Coupon from "../../../models/Coupon";
-import slugify from "slugify";
 const handler=nc().use(auth).use(admin);
 
 

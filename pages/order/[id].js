@@ -360,16 +360,10 @@ export async function getServerSideProps(context){
             notFound:true,
         };
     }
-    const order=await Order.findById(id).populate({path:"user", model:User}).lean();
-      
+    const order=await Order.findById(id).populate({path:"user", model:User}).lean(); 
     let paypal_client_id=process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
     let stripe_public_key=process.env.STRIPE_PUBLIC_KEY;
-
-    
-    
     disconnectDb();
-    
-
     return{
         props:{
             orderData:JSON.parse(JSON.stringify(order)),

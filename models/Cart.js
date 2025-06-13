@@ -1,3 +1,6 @@
+
+//cart schema
+
 import mongoose from "mongoose";
 
 const {ObjectId}=mongoose.Schema;
@@ -19,14 +22,7 @@ const cartSchema=new mongoose.Schema(
         size:{
             type:String,
         },
-       /* 
-        style:{
-            style:String,
-            color:String,
-            image:String,
-        },
        
-       */
         qty:{
             type:Number,
         },

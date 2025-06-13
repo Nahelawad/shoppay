@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import SingularSelect from "../../../../components/select/SingularSelect";
 import MultipleSelect from "../../../../components/select/MultipleSelect";
 import AdminInput from "../../../../components/inputs/admininput";
-import DialogModal from "../../../../components/dialogModal";
+
 import { useDispatch } from "react-redux";
 import Images from "../../../../components/admin/createProduct/images";
 import Colors from "../../../../components/admin/createProduct/colors";
@@ -385,7 +385,6 @@ export async function getServerSideProps(context) {
 
     const results=await Product.find().select("name subProducts").lean();
     const categories=await Category.find().lean();
-
 
     disconnectDb();
 
